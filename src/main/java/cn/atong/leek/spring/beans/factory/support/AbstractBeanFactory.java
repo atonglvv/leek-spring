@@ -6,7 +6,6 @@ import cn.atong.leek.spring.beans.factory.config.BeanDefinition;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @program: leek-spring
@@ -46,7 +45,5 @@ public abstract class AbstractBeanFactory implements BeanFactory {
     protected abstract BeanDefinition getBeanDefinition(String beanName) throws BeansException;
 
     protected abstract Object createBean(String beanName, BeanDefinition beanDefinition) throws BeansException;
-
-    protected abstract void registerBeanDefinition(String beanName, BeanDefinition beanDefinition);
 
 }
