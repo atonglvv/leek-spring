@@ -7,3 +7,8 @@
 新增 SingletonBeanRegistry 接口, 单例bean容器雏形
  
  去掉之前写在AbstractBeanFactory从容器中获取单例bean的代码, 改为直接extends DefaultSingletonBeanRegistry
+ 
+ # version4.0
+ fix 含有构造函数的bean无法通过version3.0实例化。
+ 
+ 
