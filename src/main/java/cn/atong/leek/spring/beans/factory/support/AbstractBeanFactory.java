@@ -13,9 +13,7 @@ import java.util.Map;
  * @author: atong
  * @create: 2022-03-24 14:17
  */
-public abstract class AbstractBeanFactory implements BeanFactory {
-
-    private final Map<String, Object> singletonObjects = new HashMap<>();
+public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements BeanFactory {
 
     /**
      * 模板模式, 获取 bean 的方法
@@ -32,14 +30,6 @@ public abstract class AbstractBeanFactory implements BeanFactory {
 
         BeanDefinition beanDefinition = getBeanDefinition(name);
         return createBean(name, beanDefinition);
-    }
-
-    protected void addSingleton(String beanName, Object singletonObject) {
-        singletonObjects.put(beanName, singletonObject);
-    }
-
-    protected Object getSingleton(String beanName) {
-        return singletonObjects.get(beanName);
     }
 
     protected abstract BeanDefinition getBeanDefinition(String beanName) throws BeansException;
