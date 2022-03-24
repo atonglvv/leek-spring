@@ -16,4 +16,13 @@ public interface BeanFactory {
      * @return Object
      */
     Object getBean(String name) throws BeansException;
+
+    /**
+     * 提供从容器中获取 Bean 的方法, 传递入参给构造函数实例化
+     * @param name
+     * @param args 构造参数
+     * @return
+     * @throws BeansException
+     */
+    Object getBean(String name, Object... args) throws BeansException;
 }
