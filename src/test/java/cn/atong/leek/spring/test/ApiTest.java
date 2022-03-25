@@ -4,6 +4,7 @@ import cn.atong.leek.spring.beans.PropertyValue;
 import cn.atong.leek.spring.beans.PropertyValues;
 import cn.atong.leek.spring.beans.factory.config.BeanDefinition;
 import cn.atong.leek.spring.beans.factory.support.DefaultListableBeanFactory;
+import cn.atong.leek.spring.test.beans.UserDao;
 import cn.atong.leek.spring.test.beans.UserService;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.NoOp;
@@ -25,9 +26,14 @@ public class ApiTest {
         // 1.初始化 BeanFactory
         DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 
-        // 2.注册 bean
+        //UserDao 注册
+        beanFactory.registerBeanDefinition("userDao", new BeanDefinition(UserDao.class));
+
+        // 2.注册 userService
         PropertyValues propertyValues = new PropertyValues();
+        propertyValues.addPropertyValue(new PropertyValue("uId", "10002"));
         propertyValues.addPropertyValue(new PropertyValue("name", "cc"));
+        propertyValues.addPropertyValue(new PropertyValue("userDao", beanFactory.getBean("userDao")));
         BeanDefinition beanDefinition = new BeanDefinition(UserService.class, propertyValues);
         beanFactory.registerBeanDefinition("userService", beanDefinition);
 

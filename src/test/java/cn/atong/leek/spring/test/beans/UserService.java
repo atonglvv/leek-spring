@@ -1,5 +1,7 @@
 package cn.atong.leek.spring.test.beans;
 
+import javax.sound.midi.Soundbank;
+
 /**
  * @description  User Service
  * @author atong
@@ -8,7 +10,11 @@ package cn.atong.leek.spring.test.beans;
  **/
 public class UserService {
 
+    private String uId;
+
     private String name;
+
+    private UserDao userDao;
 
     public UserService() {
     }
@@ -17,8 +23,17 @@ public class UserService {
         this.name = name;
     }
 
-    public void queryUserInfo(){
-        System.out.println("查询用户信息:" + this.name);
+    public void queryUserInfo() {
+        System.out.println("用户Id = " + uId);
+        System.out.println("查询用户信息:" + userDao.queryUserName(uId));
+    }
+
+    public UserDao getUserDao() {
+        return userDao;
+    }
+
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
     }
 
 }
