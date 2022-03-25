@@ -1,5 +1,7 @@
 package cn.atong.leek.spring.test;
 
+import cn.atong.leek.spring.beans.PropertyValue;
+import cn.atong.leek.spring.beans.PropertyValues;
 import cn.atong.leek.spring.beans.factory.config.BeanDefinition;
 import cn.atong.leek.spring.beans.factory.support.DefaultListableBeanFactory;
 import cn.atong.leek.spring.test.beans.UserService;
@@ -24,11 +26,13 @@ public class ApiTest {
         DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 
         // 2.注册 bean
-        BeanDefinition beanDefinition = new BeanDefinition(UserService.class);
+        PropertyValues propertyValues = new PropertyValues();
+        propertyValues.addPropertyValue(new PropertyValue("name", "cc"));
+        BeanDefinition beanDefinition = new BeanDefinition(UserService.class, propertyValues);
         beanFactory.registerBeanDefinition("userService", beanDefinition);
 
         // 3.第一次获取 bean
-        UserService userService = (UserService) beanFactory.getBean("userService", "atong");
+        UserService userService = (UserService) beanFactory.getBean("userService");
         userService.queryUserInfo();
 
         // 4.第二次获取 bean from Singleton

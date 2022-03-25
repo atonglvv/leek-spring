@@ -14,4 +14,7 @@
  # version4.1
  【策略模式】 实现bean的实例化, Java反射实现与cglib实现。
  
+ # version 5.0
+ 在createBean的时候填充属性
+ 
  
