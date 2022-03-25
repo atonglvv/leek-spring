@@ -4,6 +4,7 @@ import cn.atong.leek.spring.beans.BeansException;
 import cn.atong.leek.spring.beans.PropertyValue;
 import cn.atong.leek.spring.beans.PropertyValues;
 import cn.atong.leek.spring.beans.factory.config.BeanDefinition;
+import cn.atong.leek.spring.beans.factory.config.BeanReference;
 import cn.hutool.core.bean.BeanUtil;
 
 import java.lang.reflect.Constructor;
@@ -55,6 +56,13 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
                 String name = propertyValue.getName();
                 Object value = propertyValue.getValue();
+
+                if (value instanceof BeanReference) {
+                    // A 依赖 B，获取 B 的实例化
+                    BeanReference beanReference = (BeanReference) value;
+                    value = getBean(beanReference.getBeanName());
+                }
+
                 // 属性填充
                 BeanUtil.setFieldValue(bean, name, value);
             }
