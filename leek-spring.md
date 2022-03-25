@@ -11,4 +11,7 @@
  # version4.0
  fix 含有构造函数的bean无法通过version3.0实例化。
  
+ # version4.1
+ 【策略模式】 实现bean的实例化, Java反射实现与cglib实现。
+ 
  
