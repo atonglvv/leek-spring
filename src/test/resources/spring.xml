@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+
+    <bean id="userDao" class="cn.atong.leek.spring.test.bean.UserDao"/>
+
+    <bean id="userService" class="cn.atong.leek.spring.test.bean.UserService">
+        <property name="uId" value="10002"/>
+        <property name="userDao" ref="userDao"/>
+    </bean>
+
+</beans>

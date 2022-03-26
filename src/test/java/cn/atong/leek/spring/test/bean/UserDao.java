@@ -1,4 +1,4 @@
-package cn.atong.leek.spring.test.beans;
+package cn.atong.leek.spring.test.bean;
 
 import java.util.HashMap;
 import java.util.Map;

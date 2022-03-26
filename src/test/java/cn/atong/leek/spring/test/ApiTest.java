@@ -4,14 +4,21 @@ import cn.atong.leek.spring.beans.PropertyValue;
 import cn.atong.leek.spring.beans.PropertyValues;
 import cn.atong.leek.spring.beans.factory.config.BeanDefinition;
 import cn.atong.leek.spring.beans.factory.support.DefaultListableBeanFactory;
-import cn.atong.leek.spring.test.beans.UserDao;
-import cn.atong.leek.spring.test.beans.UserService;
+import cn.atong.leek.spring.beans.factory.xml.XmlBeanDefinitionReader;
+import cn.atong.leek.spring.core.io.ClassPathResource;
+import cn.atong.leek.spring.core.io.FileSystemResource;
+import cn.atong.leek.spring.core.io.Resource;
+import cn.atong.leek.spring.core.io.UrlResource;
+import cn.atong.leek.spring.test.bean.UserDao;
+import cn.atong.leek.spring.test.bean.UserService;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.NoOp;
 import org.junit.Test;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * @program: leek-spring
@@ -90,4 +97,33 @@ public class ApiTest {
         UserService userService = declaredConstructor.newInstance("atong");
         System.out.println(userService);
     }
+
+    @Test
+    public void test_xml() {
+        // 1.初始化 BeanFactory
+        DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
+
+        // 2. 读取配置文件&注册Bean
+        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(beanFactory);
+        Resource resource;
+        String location = "classpath:spring.xml";
+        if (location.startsWith("classpath:")) {
+            resource = new ClassPathResource(location.substring("classpath:".length()));
+        }
+        else {
+            try {
+                URL url = new URL(location);
+                resource = new UrlResource(url);
+            } catch (MalformedURLException e) {
+                resource = new FileSystemResource(location);
+            }
+        }
+        reader.loadBeanDefinitions(resource);
+
+        // 3. 获取Bean对象调用方法
+        UserService userService = (UserService)beanFactory.getBean("userService");
+        String result = userService.queryUserInfo();
+        System.out.println("测试结果：" + result);
+    }
+
 }
