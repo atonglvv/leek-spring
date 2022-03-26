@@ -6,7 +6,9 @@ import cn.atong.leek.spring.beans.factory.config.BeanDefinition;
 import cn.atong.leek.spring.beans.factory.config.BeanReference;
 import cn.atong.leek.spring.beans.factory.support.BeanDefinitionReader;
 import cn.atong.leek.spring.beans.factory.support.BeanDefinitionRegistry;
+import cn.atong.leek.spring.core.io.DefaultResourceLoader;
 import cn.atong.leek.spring.core.io.Resource;
+import cn.atong.leek.spring.core.io.ResourceLoader;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.XmlUtil;
 import org.w3c.dom.Document;
@@ -26,8 +28,11 @@ public class XmlBeanDefinitionReader implements BeanDefinitionReader {
 
     private final BeanDefinitionRegistry registry;
 
+    private ResourceLoader resourceLoader;
+
     public XmlBeanDefinitionReader(BeanDefinitionRegistry registry) {
         this.registry = registry;
+        this.resourceLoader = new DefaultResourceLoader();
     }
 
     @Override
@@ -39,6 +44,12 @@ public class XmlBeanDefinitionReader implements BeanDefinitionReader {
         } catch (IOException | ClassNotFoundException e) {
             throw new BeansException("IOException parsing XML document from " + resource, e);
         }
+    }
+
+    @Override
+    public void loadBeanDefinitions(String location) throws BeansException {
+        Resource resource = resourceLoader.getResource(location);
+        loadBeanDefinitions(resource);
     }
 
     protected void doLoadBeanDefinitions(InputStream inputStream) throws ClassNotFoundException {

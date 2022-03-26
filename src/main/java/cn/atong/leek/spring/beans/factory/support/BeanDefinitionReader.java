@@ -12,4 +12,6 @@ import cn.atong.leek.spring.core.io.Resource;
 public interface BeanDefinitionReader {
 
     void loadBeanDefinitions(Resource resource) throws BeansException;
+
+    void loadBeanDefinitions(String location) throws BeansException;
 }

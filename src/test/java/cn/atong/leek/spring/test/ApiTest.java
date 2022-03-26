@@ -105,20 +105,7 @@ public class ApiTest {
 
         // 2. 读取配置文件&注册Bean
         XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(beanFactory);
-        Resource resource;
-        String location = "classpath:spring.xml";
-        if (location.startsWith("classpath:")) {
-            resource = new ClassPathResource(location.substring("classpath:".length()));
-        }
-        else {
-            try {
-                URL url = new URL(location);
-                resource = new UrlResource(url);
-            } catch (MalformedURLException e) {
-                resource = new FileSystemResource(location);
-            }
-        }
-        reader.loadBeanDefinitions(resource);
+        reader.loadBeanDefinitions("classpath:spring.xml");
 
         // 3. 获取Bean对象调用方法
         UserService userService = (UserService)beanFactory.getBean("userService");
