@@ -6,7 +6,7 @@ package cn.atong.leek.spring.beans;
  * @author: atong
  * @create: 2022-03-24 11:35
  */
-public class BeansException extends RuntimeException{
+public class BeansException extends RuntimeException {
 
     public BeansException(String msg) {
         super(msg);

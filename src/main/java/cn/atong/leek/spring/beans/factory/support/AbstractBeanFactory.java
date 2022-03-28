@@ -4,9 +4,6 @@ import cn.atong.leek.spring.beans.BeansException;
 import cn.atong.leek.spring.beans.factory.BeanFactory;
 import cn.atong.leek.spring.beans.factory.config.BeanDefinition;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * @program: leek-spring
  * @description: 抽象BeanFactory
@@ -17,6 +14,7 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
 
     /**
      * 模板模式, 获取 bean 的方法
+     *
      * @param name bean's name
      * @return
      * @throws BeansException

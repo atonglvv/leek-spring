@@ -1,8 +1,6 @@
 package cn.atong.leek.spring.beans.factory.support;
 
-import cn.atong.leek.spring.beans.BeansException;
 import cn.atong.leek.spring.core.io.DefaultResourceLoader;
-import cn.atong.leek.spring.core.io.Resource;
 import cn.atong.leek.spring.core.io.ResourceLoader;
 
 /**
@@ -12,7 +10,7 @@ import cn.atong.leek.spring.core.io.ResourceLoader;
  * @author: atong
  * @create: 2022-03-28 11:07
  */
-public abstract class AbstractBeanDefinitionReader implements BeanDefinitionReader{
+public abstract class AbstractBeanDefinitionReader implements BeanDefinitionReader {
 
     private final BeanDefinitionRegistry registry;
 

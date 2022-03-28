@@ -5,10 +5,6 @@ import cn.atong.leek.spring.beans.PropertyValues;
 import cn.atong.leek.spring.beans.factory.config.BeanDefinition;
 import cn.atong.leek.spring.beans.factory.support.DefaultListableBeanFactory;
 import cn.atong.leek.spring.beans.factory.xml.XmlBeanDefinitionReader;
-import cn.atong.leek.spring.core.io.ClassPathResource;
-import cn.atong.leek.spring.core.io.FileSystemResource;
-import cn.atong.leek.spring.core.io.Resource;
-import cn.atong.leek.spring.core.io.UrlResource;
 import cn.atong.leek.spring.test.bean.UserDao;
 import cn.atong.leek.spring.test.bean.UserService;
 import net.sf.cglib.proxy.Enhancer;
@@ -17,8 +13,6 @@ import org.junit.Test;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 /**
  * @program: leek-spring
@@ -108,7 +102,7 @@ public class ApiTest {
         reader.loadBeanDefinitions("classpath:spring.xml");
 
         // 3. 获取Bean对象调用方法
-        UserService userService = (UserService)beanFactory.getBean("userService");
+        UserService userService = (UserService) beanFactory.getBean("userService");
         String result = userService.queryUserInfo();
         System.out.println("测试结果：" + result);
     }

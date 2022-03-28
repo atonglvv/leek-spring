@@ -12,6 +12,7 @@ public interface BeanFactory {
 
     /**
      * 提供从容器中获取 Bean 的方法
+     *
      * @param name bean's name
      * @return Object
      */
@@ -19,6 +20,7 @@ public interface BeanFactory {
 
     /**
      * 提供从容器中获取 Bean 的方法, 传递入参给构造函数实例化
+     *
      * @param name
      * @param args 构造参数
      * @return

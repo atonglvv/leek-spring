@@ -13,6 +13,7 @@ public interface BeanDefinitionRegistry {
     /**
      * 向注册表中注册 BeanDefinition
      * 注册 BeanDefinition 方式较多, 这里将 registerBeanDefinition 单独拿出来做为接口
+     *
      * @param beanName
      * @param beanDefinition
      */
@@ -20,6 +21,7 @@ public interface BeanDefinitionRegistry {
 
     /**
      * 判断是否包含指定名称的BeanDefinition
+     *
      * @param beanName
      * @return
      */
