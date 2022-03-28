@@ -4,6 +4,7 @@ import cn.atong.leek.spring.beans.BeansException;
 import cn.atong.leek.spring.beans.PropertyValue;
 import cn.atong.leek.spring.beans.factory.config.BeanDefinition;
 import cn.atong.leek.spring.beans.factory.config.BeanReference;
+import cn.atong.leek.spring.beans.factory.support.AbstractBeanDefinitionReader;
 import cn.atong.leek.spring.beans.factory.support.BeanDefinitionReader;
 import cn.atong.leek.spring.beans.factory.support.BeanDefinitionRegistry;
 import cn.atong.leek.spring.core.io.DefaultResourceLoader;
@@ -24,15 +25,14 @@ import java.io.InputStream;
  * @author: atong
  * @create: 2022-03-26 17:43
  */
-public class XmlBeanDefinitionReader implements BeanDefinitionReader {
-
-    private final BeanDefinitionRegistry registry;
-
-    private ResourceLoader resourceLoader;
+public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
     public XmlBeanDefinitionReader(BeanDefinitionRegistry registry) {
-        this.registry = registry;
-        this.resourceLoader = new DefaultResourceLoader();
+        super(registry);
+    }
+
+    public XmlBeanDefinitionReader(BeanDefinitionRegistry registry, ResourceLoader resourceLoader) {
+        super(registry, resourceLoader);
     }
 
     @Override
@@ -48,6 +48,7 @@ public class XmlBeanDefinitionReader implements BeanDefinitionReader {
 
     @Override
     public void loadBeanDefinitions(String location) throws BeansException {
+        ResourceLoader resourceLoader = getResourceLoader();
         Resource resource = resourceLoader.getResource(location);
         loadBeanDefinitions(resource);
     }
@@ -66,9 +67,13 @@ public class XmlBeanDefinitionReader implements BeanDefinitionReader {
 
         for (int i = 0; i < childNodes.getLength(); i++) {
             // 判断元素
-            if (!(childNodes.item(i) instanceof Element)) continue;
+            if (!(childNodes.item(i) instanceof Element)) {
+                continue;
+            }
             // 判断对象
-            if (!"bean".equals(childNodes.item(i).getNodeName())) continue;
+            if (!"bean".equals(childNodes.item(i).getNodeName())) {
+                continue;
+            }
 
             // 解析标签
             Element bean = (Element) childNodes.item(i);
@@ -100,11 +105,11 @@ public class XmlBeanDefinitionReader implements BeanDefinitionReader {
                 PropertyValue propertyValue = new PropertyValue(attrName, value);
                 beanDefinition.getPropertyValues().addPropertyValue(propertyValue);
             }
-            if (registry.containsBeanDefinition(beanName)) {
+            if (getRegistry().containsBeanDefinition(beanName)) {
                 throw new BeansException("Duplicate beanName[" + beanName + "] is not allowed");
             }
             // 注册 BeanDefinition
-            registry.registerBeanDefinition(beanName, beanDefinition);
+            getRegistry().registerBeanDefinition(beanName, beanDefinition);
         }
     }
 }
