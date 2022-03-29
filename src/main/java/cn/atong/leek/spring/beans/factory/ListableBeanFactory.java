@@ -8,9 +8,9 @@ import java.util.Map;
  * @program: leek-spring
  * @description:
  * @author: atong
- * @create: 2022-03-28 20:22
+ * @create: 2022-03-28 16:46
  */
-public interface ListableBeanFactory extends BeanFactory{
+public interface ListableBeanFactory extends BeanFactory {
 
     /**
      * 按照类型返回 Bean 实例

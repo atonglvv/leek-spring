@@ -8,4 +8,6 @@
         <property name="userDao" ref="userDao"/>
     </bean>
 
+    <bean class="cn.atong.leek.spring.test.common.MyBeanFactoryPostProcessor"/>
+
 </beans>

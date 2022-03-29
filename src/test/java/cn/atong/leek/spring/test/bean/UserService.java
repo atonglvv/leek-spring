@@ -12,6 +12,8 @@ public class UserService {
 
     private String name;
 
+    private Integer age;
+
     private UserDao userDao;
 
     public UserService() {
@@ -23,6 +25,7 @@ public class UserService {
 
     public String queryUserInfo() {
         System.out.println("用户Id = " + uId);
+        System.out.println("用户age = " + age);
         System.out.println("查询用户信息:" + userDao.queryUserName(uId));
         return userDao.queryUserName(uId);
     }

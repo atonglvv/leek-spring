@@ -17,6 +17,13 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
     private final Map<String, BeanDefinition> beanDefinitionMap = new HashMap<>();
 
+    /**
+     * 获取BeanDefinition
+     * BeanFactoryPostProcessor 修改BeanDefinition用
+     * @param beanName
+     * @return
+     * @throws BeansException
+     */
     @Override
     public BeanDefinition getBeanDefinition(String beanName) throws BeansException {
         BeanDefinition beanDefinition = beanDefinitionMap.get(beanName);
@@ -46,7 +53,12 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
         Map<String, T> result = new HashMap<>();
         beanDefinitionMap.forEach((beanName, beanDefinition) -> {
             Class beanClass = beanDefinition.getBeanClass();
+            // 判断type是否为beanClass的父类
             if (type.isAssignableFrom(beanClass)) {
+                /*
+                 * 在这里先将 实现了BeanFactoryPOSTProcessor接口的类实例化 放到容器
+                 * 然后调用postProcessBeanFactory方法修改BeanDefinition
+                 */
                 result.put(beanName, (T) getBean(beanName));
             }
         });

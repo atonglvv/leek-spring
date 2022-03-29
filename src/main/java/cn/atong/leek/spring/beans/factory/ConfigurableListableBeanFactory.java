@@ -11,6 +11,15 @@ import cn.atong.leek.spring.beans.factory.config.BeanDefinition;
  */
 public interface ConfigurableListableBeanFactory extends ListableBeanFactory {
 
+    /**
+     * 获取BeanDefinition
+     * BeanFactoryPostProcessor 修改BeanDefinition用
+     * @param beanName
+     * @return
+     * @throws BeansException
+     */
+    BeanDefinition getBeanDefinition(String beanName) throws BeansException;
+
     void preInstantiateSingletons() throws BeansException;
 
 }
