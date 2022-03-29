@@ -9,5 +9,6 @@
     </bean>
 
     <bean class="cn.atong.leek.spring.test.common.MyBeanFactoryPostProcessor"/>
+    <bean class="cn.atong.leek.spring.test.common.MyBeanPostProcessor"/>
 
 </beans>

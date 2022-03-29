@@ -2,7 +2,11 @@ package cn.atong.leek.spring.beans.factory.support;
 
 import cn.atong.leek.spring.beans.BeansException;
 import cn.atong.leek.spring.beans.factory.config.BeanDefinition;
+import cn.atong.leek.spring.beans.factory.config.BeanPostProcessor;
 import cn.atong.leek.spring.beans.factory.config.ConfigurableBeanFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @program: leek-spring
@@ -11,6 +15,9 @@ import cn.atong.leek.spring.beans.factory.config.ConfigurableBeanFactory;
  * @create: 2022-03-24 14:17
  */
 public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements ConfigurableBeanFactory {
+
+    /** BeanPostProcessors to apply in createBean */
+    private final List<BeanPostProcessor> beanPostProcessors = new ArrayList<>();
 
     /**
      * 模板模式, 获取 bean 的方法
@@ -43,4 +50,17 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
 
     protected abstract Object createBean(String beanName, BeanDefinition beanDefinition, Object[] args) throws BeansException;
 
+    @Override
+    public void addBeanPostProcessor(BeanPostProcessor beanPostProcessor){
+        this.beanPostProcessors.remove(beanPostProcessor);
+        this.beanPostProcessors.add(beanPostProcessor);
+    }
+
+    /**
+     * Return the list of BeanPostProcessors that will get applied
+     * to beans created with this factory.
+     */
+    public List<BeanPostProcessor> getBeanPostProcessors() {
+        return this.beanPostProcessors;
+    }
 }

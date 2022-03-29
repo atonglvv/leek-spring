@@ -3,6 +3,7 @@ package cn.atong.leek.spring.context.support;
 import cn.atong.leek.spring.beans.BeansException;
 import cn.atong.leek.spring.beans.factory.ConfigurableListableBeanFactory;
 import cn.atong.leek.spring.beans.factory.config.BeanFactoryPostProcessor;
+import cn.atong.leek.spring.beans.factory.config.BeanPostProcessor;
 import cn.atong.leek.spring.context.ConfigurableApplicationContext;
 
 import java.util.Map;
@@ -26,7 +27,10 @@ public abstract class AbstractApplicationContext implements ConfigurableApplicat
         // 3. 在 Bean 实例化之前，执行 BeanFactoryPostProcessor (Invoke factory processors registered as beans in the context.)
         invokeBeanFactoryPostProcessors(beanFactory);
 
-        // 4. 提前实例化单例Bean对象
+        // 4. BeanPostProcessor 需要提前于其他 Bean 对象实例化之前执行注册操作
+        registerBeanPostProcessors(beanFactory);
+
+        // 5. 提前实例化单例Bean对象
         beanFactory.preInstantiateSingletons();
     }
 
@@ -38,6 +42,17 @@ public abstract class AbstractApplicationContext implements ConfigurableApplicat
         Map<String, BeanFactoryPostProcessor> beanFactoryPostProcessorMap = beanFactory.getBeansOfType(BeanFactoryPostProcessor.class);
         for (BeanFactoryPostProcessor beanFactoryPostProcessor : beanFactoryPostProcessorMap.values()) {
             beanFactoryPostProcessor.postProcessBeanFactory(beanFactory);
+        }
+    }
+
+    /**
+     * 将所有 BeanPostProcessor 的 子类注册到 BeanFactory
+     * @param beanFactory
+     */
+    private void registerBeanPostProcessors(ConfigurableListableBeanFactory beanFactory) {
+        Map<String, BeanPostProcessor> beanPostProcessorMap = beanFactory.getBeansOfType(BeanPostProcessor.class);
+        for (BeanPostProcessor beanPostProcessor : beanPostProcessorMap.values()) {
+            beanFactory.addBeanPostProcessor(beanPostProcessor);
         }
     }
 
