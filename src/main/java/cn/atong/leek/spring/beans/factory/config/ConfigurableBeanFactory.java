@@ -10,6 +10,10 @@ import cn.atong.leek.spring.beans.factory.HierarchicalBeanFactory;
  */
 public interface ConfigurableBeanFactory extends HierarchicalBeanFactory {
 
+    /**
+     * 将 BeanPostProcessor 注册到BeanFactory中
+     * @param beanPostProcessor
+     */
     void addBeanPostProcessor(BeanPostProcessor beanPostProcessor);
 
 }
