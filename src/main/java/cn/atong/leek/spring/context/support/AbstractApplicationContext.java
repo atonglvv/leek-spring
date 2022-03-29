@@ -5,6 +5,7 @@ import cn.atong.leek.spring.beans.factory.ConfigurableListableBeanFactory;
 import cn.atong.leek.spring.beans.factory.config.BeanFactoryPostProcessor;
 import cn.atong.leek.spring.beans.factory.config.BeanPostProcessor;
 import cn.atong.leek.spring.context.ConfigurableApplicationContext;
+import cn.atong.leek.spring.core.io.DefaultResourceLoader;
 
 import java.util.Map;
 
@@ -14,7 +15,7 @@ import java.util.Map;
  * @author: atong
  * @create: 2022-03-28 20:39
  */
-public abstract class AbstractApplicationContext implements ConfigurableApplicationContext {
+public abstract class AbstractApplicationContext extends DefaultResourceLoader implements ConfigurableApplicationContext {
 
     @Override
     public void refresh() throws BeansException {

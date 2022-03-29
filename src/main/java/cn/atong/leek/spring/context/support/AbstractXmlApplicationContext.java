@@ -15,8 +15,7 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshableA
 
     @Override
     protected void loadBeanDefinitions(DefaultListableBeanFactory beanFactory) {
-        ResourceLoader resourceLoader = new DefaultResourceLoader();
-        XmlBeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(beanFactory, resourceLoader);
+        XmlBeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(beanFactory, this);
         String[] configLocations = getConfigLocations();
         if (null != configLocations){
             beanDefinitionReader.loadBeanDefinitions(configLocations);
