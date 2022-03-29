@@ -17,4 +17,13 @@ public class UserDao {
         return hashMap.get(uId);
     }
 
+    public void initDataMethod(){
+        System.out.println("======UserDao.init-method======");
+    }
+
+    public void destroyDataMethod(){
+        System.out.println("======UserDao.destroy-method======");
+        hashMap.clear();
+    }
+
 }

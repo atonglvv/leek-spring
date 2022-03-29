@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans>
 
-    <bean id="userDao" class="cn.atong.leek.spring.test.bean.UserDao"/>
+    <bean id="userDao" class="cn.atong.leek.spring.test.bean.UserDao" init-method="initDataMethod" destroy-method="destroyDataMethod"/>
 
     <bean id="userService" class="cn.atong.leek.spring.test.bean.UserService">
         <property name="uId" value="10002"/>
