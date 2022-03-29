@@ -1,8 +1,8 @@
 package cn.atong.leek.spring.beans.factory.support;
 
 import cn.atong.leek.spring.beans.BeansException;
-import cn.atong.leek.spring.beans.factory.BeanFactory;
 import cn.atong.leek.spring.beans.factory.config.BeanDefinition;
+import cn.atong.leek.spring.beans.factory.config.ConfigurableBeanFactory;
 
 /**
  * @program: leek-spring
@@ -10,7 +10,7 @@ import cn.atong.leek.spring.beans.factory.config.BeanDefinition;
  * @author: atong
  * @create: 2022-03-24 14:17
  */
-public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements BeanFactory {
+public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements ConfigurableBeanFactory {
 
     /**
      * 模板模式, 获取 bean 的方法
