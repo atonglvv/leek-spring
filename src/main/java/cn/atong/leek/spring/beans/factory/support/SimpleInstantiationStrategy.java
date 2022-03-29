@@ -12,8 +12,9 @@ import java.lang.reflect.InvocationTargetException;
  * @author: atong
  * @create: 2022-03-24 17:11
  */
-public class SimpleInstantiationStrategy {
+public class SimpleInstantiationStrategy implements InstantiationStrategy {
 
+    @Override
     public Object instantiate(BeanDefinition beanDefinition, String beanName, Constructor ctor, Object[] args) throws BeansException {
         Class clazz = beanDefinition.getBeanClass();
         try {
