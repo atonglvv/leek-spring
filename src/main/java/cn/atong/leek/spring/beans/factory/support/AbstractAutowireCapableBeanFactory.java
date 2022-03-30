@@ -3,6 +3,7 @@ package cn.atong.leek.spring.beans.factory.support;
 import cn.atong.leek.spring.beans.BeansException;
 import cn.atong.leek.spring.beans.PropertyValue;
 import cn.atong.leek.spring.beans.PropertyValues;
+import cn.atong.leek.spring.beans.factory.DisposableBean;
 import cn.atong.leek.spring.beans.factory.config.AutowireCapableBeanFactory;
 import cn.atong.leek.spring.beans.factory.config.BeanDefinition;
 import cn.atong.leek.spring.beans.factory.config.BeanPostProcessor;
@@ -36,8 +37,18 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         } catch (Exception e) {
             throw new BeansException("Instantiation of bean failed", e);
         }
+
+        // 注册实现了 DisposableBean 接口的 Bean 对象
+        registerDisposableBeanIfNecessary(beanName, bean, beanDefinition);
+
         addSingleton(beanName, bean);
         return bean;
+    }
+
+    protected void registerDisposableBeanIfNecessary(String beanName, Object bean, BeanDefinition beanDefinition) {
+        if (StrUtil.isNotEmpty(beanDefinition.getDestroyMethodName())) {
+            registerDisposableBean(beanName, new DisposableBean(bean, beanName, beanDefinition.getDestroyMethodName()));
+        }
     }
 
     protected Object createBeanInstance(BeanDefinition beanDefinition, String beanName, Object[] args) {

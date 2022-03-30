@@ -112,11 +112,18 @@ public class ApiTest {
     public void test_context() {
         // 1.初始化 BeanFactory
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
+        applicationContext.registerShutdownHook();
 
         // 2. 获取Bean对象调用方法
         UserService userService = (UserService)applicationContext.getBean("userService");
         String result = userService.queryUserInfo();
         System.out.println("测试结果：" + result);
+    }
+
+
+    @Test
+    public void test_hook() {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> System.out.println("close！")));
     }
 
 }
