@@ -1,5 +1,6 @@
 package cn.atong.leek.spring.test.bean;
 
+import cn.atong.leek.spring.beans.factory.DisposableBean;
 import cn.atong.leek.spring.beans.factory.InitializingBean;
 
 /**
@@ -8,7 +9,7 @@ import cn.atong.leek.spring.beans.factory.InitializingBean;
  * @description User Service
  * @date 10:57 2022/3/25
  **/
-public class UserService implements InitializingBean {
+public class UserService implements InitializingBean, DisposableBean {
 
     private String uId;
 
@@ -72,5 +73,10 @@ public class UserService implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         System.out.println("执行：UserService.afterPropertiesSet");
+    }
+
+    @Override
+    public void destroy() throws Exception {
+        System.out.println("执行：UserService.destroy");
     }
 }

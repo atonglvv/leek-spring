@@ -46,11 +46,7 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
             Object beanName = disposableBeanNames[i];
             DisposableBean disposableBean = disposableBeans.remove(beanName);
             try {
-                Method destroyMethod = disposableBean.getBean().getClass().getMethod(disposableBean.getDestroyMethodName());
-                if (null == destroyMethod) {
-                    throw new BeansException("Couldn't find a destroy method named '" + disposableBean.getBeanName() + "' on bean with name '" + beanName + "'");
-                }
-                destroyMethod.invoke(disposableBean.getBean());
+                disposableBean.destroy();
             } catch (Exception e) {
                 throw new BeansException("Destroy method on bean with name '" + beanName + "' threw an exception", e);
             }
