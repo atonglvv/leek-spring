@@ -4,6 +4,7 @@ import cn.atong.leek.spring.beans.BeansException;
 import cn.atong.leek.spring.beans.PropertyValue;
 import cn.atong.leek.spring.beans.PropertyValues;
 import cn.atong.leek.spring.beans.factory.DisposableBean;
+import cn.atong.leek.spring.beans.factory.InitializingBean;
 import cn.atong.leek.spring.beans.factory.config.AutowireCapableBeanFactory;
 import cn.atong.leek.spring.beans.factory.config.BeanDefinition;
 import cn.atong.leek.spring.beans.factory.config.BeanPostProcessor;
@@ -121,8 +122,15 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     }
 
     private void invokeInitMethods(String beanName, Object bean, BeanDefinition beanDefinition) throws Exception {
+
+        // 1. 实现接口 InitializingBean
+        if (bean instanceof InitializingBean) {
+            ((InitializingBean) bean).afterPropertiesSet();
+        }
+
         String initMethodName = beanDefinition.getInitMethodName();
-        if (StrUtil.isNotEmpty(initMethodName)) {
+        // 判断防止 二次初始化 InitializingBean
+        if (StrUtil.isNotEmpty(initMethodName) && !(bean instanceof InitializingBean)) {
             Method initMethod = beanDefinition.getBeanClass().getMethod(initMethodName);
             if (null == initMethod) {
                 throw new BeansException("Could not find an init method named '" + initMethodName + "' on bean with name '" + beanName + "'");

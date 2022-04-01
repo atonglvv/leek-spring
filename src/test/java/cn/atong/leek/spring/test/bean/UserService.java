@@ -1,12 +1,14 @@
 package cn.atong.leek.spring.test.bean;
 
+import cn.atong.leek.spring.beans.factory.InitializingBean;
+
 /**
  * @author atong
  * @version 1.0.0.1
  * @description User Service
  * @date 10:57 2022/3/25
  **/
-public class UserService {
+public class UserService implements InitializingBean {
 
     private String uId;
 
@@ -60,5 +62,15 @@ public class UserService {
 
     public Integer getAge() {
         return age;
+    }
+
+    /**
+     * Bean 处理了属性填充后调用
+     *
+     * @throws Exception
+     */
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        System.out.println("执行：UserService.afterPropertiesSet");
     }
 }
