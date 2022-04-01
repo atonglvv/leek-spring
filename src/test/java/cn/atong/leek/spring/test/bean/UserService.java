@@ -1,7 +1,9 @@
 package cn.atong.leek.spring.test.bean;
 
-import cn.atong.leek.spring.beans.factory.DisposableBean;
-import cn.atong.leek.spring.beans.factory.InitializingBean;
+import cn.atong.leek.spring.beans.BeansException;
+import cn.atong.leek.spring.beans.factory.*;
+import cn.atong.leek.spring.context.ApplicationContext;
+import cn.atong.leek.spring.context.ApplicationContextAware;
 
 /**
  * @author atong
@@ -9,7 +11,12 @@ import cn.atong.leek.spring.beans.factory.InitializingBean;
  * @description User Service
  * @date 10:57 2022/3/25
  **/
-public class UserService implements InitializingBean, DisposableBean {
+public class UserService implements InitializingBean, DisposableBean, BeanNameAware, BeanClassLoaderAware, ApplicationContextAware, BeanFactoryAware {
+
+
+    private ApplicationContext applicationContext;
+    private BeanFactory beanFactory;
+
 
     private String uId;
 
@@ -78,5 +85,33 @@ public class UserService implements InitializingBean, DisposableBean {
     @Override
     public void destroy() throws Exception {
         System.out.println("执行：UserService.destroy");
+    }
+
+    @Override
+    public void setBeanClassLoader(ClassLoader classLoader) {
+        System.out.println("Aware ClassLoader：" + classLoader);
+    }
+
+    @Override
+    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+        this.beanFactory = beanFactory;
+    }
+
+    @Override
+    public void setBeanName(String name) {
+        System.out.println("Aware Bean Name is：" + name);
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
+    }
+
+    public ApplicationContext getApplicationContext() {
+        return applicationContext;
+    }
+
+    public BeanFactory getBeanFactory() {
+        return beanFactory;
     }
 }
