@@ -11,6 +11,18 @@ import cn.atong.leek.spring.beans.factory.HierarchicalBeanFactory;
 public interface ConfigurableBeanFactory extends HierarchicalBeanFactory {
 
     /**
+     * Scope identifier for the standard singleton scope: {@value}.
+     * <p>Custom scopes can be added via {@code registerScope}.
+     */
+    String SCOPE_SINGLETON = "singleton";
+
+    /**
+     * Scope identifier for the standard prototype scope: {@value}.
+     * <p>Custom scopes can be added via {@code registerScope}.
+     */
+    String SCOPE_PROTOTYPE = "prototype";
+
+    /**
      * 将 BeanPostProcessor 注册到BeanFactory中
      * @param beanPostProcessor
      */
