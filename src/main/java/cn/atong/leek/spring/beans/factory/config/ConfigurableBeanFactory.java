@@ -8,7 +8,7 @@ import cn.atong.leek.spring.beans.factory.HierarchicalBeanFactory;
  * @author: atong
  * @create: 2022-03-29 13:48
  */
-public interface ConfigurableBeanFactory extends HierarchicalBeanFactory {
+public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, SingletonBeanRegistry {
 
     /**
      * Scope identifier for the standard singleton scope: {@value}.

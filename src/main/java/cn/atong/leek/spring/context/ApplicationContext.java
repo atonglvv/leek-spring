@@ -8,5 +8,5 @@ import cn.atong.leek.spring.beans.factory.ListableBeanFactory;
  * @author: atong
  * @create: 2022-03-28 20:05
  */
-public interface ApplicationContext extends ListableBeanFactory {
+public interface ApplicationContext extends ListableBeanFactory, ApplicationEventPublisher {
 }

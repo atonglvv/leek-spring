@@ -20,4 +20,9 @@
     <!--测试FactoryBean-->
     <bean id="proxyUserDao" class="cn.atong.leek.spring.test.bean.ProxyBeanFactory"/>
 
+    <!--事件监听器-->
+    <bean class="cn.atong.leek.spring.test.event.ContextRefreshedEventListener"/>
+    <bean class="cn.atong.leek.spring.test.event.CustomEventListener"/>
+    <bean class="cn.atong.leek.spring.test.event.ContextClosedEventListener"/>
+
 </beans>

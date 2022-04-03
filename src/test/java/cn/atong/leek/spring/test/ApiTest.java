@@ -9,6 +9,7 @@ import cn.atong.leek.spring.context.support.ClassPathXmlApplicationContext;
 import cn.atong.leek.spring.test.bean.UserDao;
 import cn.atong.leek.spring.test.bean.UserScopeService;
 import cn.atong.leek.spring.test.bean.UserService;
+import cn.atong.leek.spring.test.event.CustomEvent;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.NoOp;
 import org.junit.Test;
@@ -158,5 +159,13 @@ public class ApiTest {
         // 2. 调用代理方法
         UserService userService = (UserService)applicationContext.getBean("userService");
         System.out.println("测试结果：" + userService.queryUserInfoFromIUserDao());
+    }
+
+    @Test
+    public void test_event() {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
+        applicationContext.publishEvent(new CustomEvent(applicationContext, 1019129009086763L, "成功了！"));
+
+        applicationContext.registerShutdownHook();
     }
 }
