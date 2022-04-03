@@ -55,6 +55,16 @@ public class UserService implements InitializingBean, DisposableBean, BeanNameAw
         return "注册用户：" + userName + " success！";
     }
 
+    @Override
+    public String queryUserName() {
+        try {
+            Thread.sleep(new Random(1).nextInt(100));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return "atong";
+    }
+
     public String queryUserInfoFromIUserDao() {
         return userDaoFactoryBean.queryUserName(uId);
     }
