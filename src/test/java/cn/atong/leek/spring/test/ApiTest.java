@@ -7,6 +7,7 @@ import cn.atong.leek.spring.beans.factory.support.DefaultListableBeanFactory;
 import cn.atong.leek.spring.beans.factory.xml.XmlBeanDefinitionReader;
 import cn.atong.leek.spring.context.support.ClassPathXmlApplicationContext;
 import cn.atong.leek.spring.test.bean.UserDao;
+import cn.atong.leek.spring.test.bean.UserScopeService;
 import cn.atong.leek.spring.test.bean.UserService;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.NoOp;
@@ -131,4 +132,20 @@ public class ApiTest {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> System.out.println("close！")));
     }
 
+
+    @Test
+    public void test_scope() {
+        // 1.初始化 BeanFactory
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
+        applicationContext.registerShutdownHook();
+
+        // 2. 获取Bean对象调用方法
+        UserScopeService userService1 = (UserScopeService)applicationContext.getBean("userScopeService");
+        UserScopeService userService2 = (UserScopeService)applicationContext.getBean("userScopeService");
+
+        System.out.println(userService1);
+        System.out.println(userService2);
+
+        System.out.println(userService1 + " 十六进制哈希：" + Integer.toHexString(userService1.hashCode()));
+    }
 }

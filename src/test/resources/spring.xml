@@ -11,4 +11,9 @@
     <bean class="cn.atong.leek.spring.test.common.MyBeanFactoryPostProcessor"/>
     <bean class="cn.atong.leek.spring.test.common.MyBeanPostProcessor"/>
 
+    <!--测试单例bean/原型bean-->
+    <bean id="userScopeService" class="cn.atong.leek.spring.test.bean.UserScopeService" scope="prototype">
+        <property name="name" value="atong"/>
+    </bean>
+
 </beans>
