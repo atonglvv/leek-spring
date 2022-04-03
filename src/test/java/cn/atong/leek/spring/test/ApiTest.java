@@ -148,4 +148,15 @@ public class ApiTest {
 
         System.out.println(userService1 + " 十六进制哈希：" + Integer.toHexString(userService1.hashCode()));
     }
+
+    @Test
+    public void test_factory_bean() {
+        // 1.初始化 BeanFactory
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
+        applicationContext.registerShutdownHook();
+
+        // 2. 调用代理方法
+        UserService userService = (UserService)applicationContext.getBean("userService");
+        System.out.println("测试结果：" + userService.queryUserInfoFromIUserDao());
+    }
 }

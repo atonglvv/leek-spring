@@ -25,6 +25,8 @@ public class UserService implements InitializingBean, DisposableBean, BeanNameAw
     private Integer age;
 
     private UserDao userDao;
+    /** Factory Bean 创建的 Bean */
+    private IUserDao userDaoFactoryBean;
 
     public UserService() {
     }
@@ -38,6 +40,10 @@ public class UserService implements InitializingBean, DisposableBean, BeanNameAw
         System.out.println("用户age = " + age);
         System.out.println("查询用户信息:" + userDao.queryUserName(uId));
         return userDao.queryUserName(uId);
+    }
+
+    public String queryUserInfoFromIUserDao() {
+        return userDaoFactoryBean.queryUserName(uId);
     }
 
     public UserDao getUserDao() {

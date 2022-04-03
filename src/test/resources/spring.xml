@@ -6,6 +6,7 @@
     <bean id="userService" class="cn.atong.leek.spring.test.bean.UserService">
         <property name="uId" value="10002"/>
         <property name="userDao" ref="userDao"/>
+        <property name="userDaoFactoryBean" ref="proxyUserDao"/>
     </bean>
 
     <bean class="cn.atong.leek.spring.test.common.MyBeanFactoryPostProcessor"/>
@@ -15,5 +16,8 @@
     <bean id="userScopeService" class="cn.atong.leek.spring.test.bean.UserScopeService" scope="prototype">
         <property name="name" value="atong"/>
     </bean>
+
+    <!--测试FactoryBean-->
+    <bean id="proxyUserDao" class="cn.atong.leek.spring.test.bean.ProxyBeanFactory"/>
 
 </beans>
