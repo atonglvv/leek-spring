@@ -6,6 +6,7 @@ import cn.atong.leek.spring.beans.factory.config.BeanDefinition;
 import cn.atong.leek.spring.beans.factory.support.DefaultListableBeanFactory;
 import cn.atong.leek.spring.beans.factory.xml.XmlBeanDefinitionReader;
 import cn.atong.leek.spring.context.support.ClassPathXmlApplicationContext;
+import cn.atong.leek.spring.test.bean.IUserService;
 import cn.atong.leek.spring.test.bean.UserDao;
 import cn.atong.leek.spring.test.bean.UserScopeService;
 import cn.atong.leek.spring.test.bean.UserService;
@@ -16,6 +17,7 @@ import org.junit.Test;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Proxy;
 
 /**
  * @program: leek-spring
@@ -168,4 +170,15 @@ public class ApiTest {
 
         applicationContext.registerShutdownHook();
     }
+
+
+    @Test
+    public void test_proxy_class() {
+        IUserService userService = (IUserService) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
+                new Class[]{IUserService.class}, (proxy, method, args) -> "你被代理了！");
+        String result = userService.queryUserInfo();
+        System.out.println("测试结果：" + result);
+    }
+
+
 }

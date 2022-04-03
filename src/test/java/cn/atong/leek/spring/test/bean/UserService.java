@@ -5,13 +5,16 @@ import cn.atong.leek.spring.beans.factory.*;
 import cn.atong.leek.spring.context.ApplicationContext;
 import cn.atong.leek.spring.context.ApplicationContextAware;
 
+import java.util.Random;
+
 /**
  * @author atong
  * @version 1.0.0.1
  * @description User Service
  * @date 10:57 2022/3/25
  **/
-public class UserService implements InitializingBean, DisposableBean, BeanNameAware, BeanClassLoaderAware, ApplicationContextAware, BeanFactoryAware {
+public class UserService implements InitializingBean, DisposableBean, BeanNameAware, BeanClassLoaderAware,
+        ApplicationContextAware, BeanFactoryAware, IUserService {
 
 
     private ApplicationContext applicationContext;
@@ -40,6 +43,16 @@ public class UserService implements InitializingBean, DisposableBean, BeanNameAw
         System.out.println("用户age = " + age);
         System.out.println("查询用户信息:" + userDao.queryUserName(uId));
         return userDao.queryUserName(uId);
+    }
+
+    @Override
+    public String register(String userName) {
+        try {
+            Thread.sleep(new Random(1).nextInt(100));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return "注册用户：" + userName + " success！";
     }
 
     public String queryUserInfoFromIUserDao() {
