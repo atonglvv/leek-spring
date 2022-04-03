@@ -1,7 +1,11 @@
 package cn.atong.leek.spring.test;
 
+import cn.atong.leek.spring.aop.AdvisedSupport;
 import cn.atong.leek.spring.aop.MethodMatcher;
+import cn.atong.leek.spring.aop.TargetSource;
 import cn.atong.leek.spring.aop.aspectj.AspectJExpressionPointcut;
+import cn.atong.leek.spring.aop.framework.Cglib2AopProxy;
+import cn.atong.leek.spring.aop.framework.JdkDynamicAopProxy;
 import cn.atong.leek.spring.aop.framework.ReflectiveMethodInvocation;
 import cn.atong.leek.spring.beans.PropertyValue;
 import cn.atong.leek.spring.beans.PropertyValues;
@@ -9,10 +13,7 @@ import cn.atong.leek.spring.beans.factory.config.BeanDefinition;
 import cn.atong.leek.spring.beans.factory.support.DefaultListableBeanFactory;
 import cn.atong.leek.spring.beans.factory.xml.XmlBeanDefinitionReader;
 import cn.atong.leek.spring.context.support.ClassPathXmlApplicationContext;
-import cn.atong.leek.spring.test.bean.IUserService;
-import cn.atong.leek.spring.test.bean.UserDao;
-import cn.atong.leek.spring.test.bean.UserScopeService;
-import cn.atong.leek.spring.test.bean.UserService;
+import cn.atong.leek.spring.test.bean.*;
 import cn.atong.leek.spring.test.event.CustomEvent;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.NoOp;
@@ -215,6 +216,40 @@ public class ApiTest {
         });
         String result = proxy.queryUserName();
         System.out.println("测试结果：" + result);
+    }
+
+
+    @Test
+    public void test_aop() throws NoSuchMethodException {
+        AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut("execution(* cn.atong.leek.spring.test.bean.UserService.*(..))");
+
+        Class<UserService> clazz = UserService.class;
+        Method method = clazz.getDeclaredMethod("queryUserName");
+
+        System.out.println(pointcut.matches(clazz));
+        System.out.println(pointcut.matches(method, clazz));
+    }
+
+
+    @Test
+    public void test_dynamic() {
+        // 目标对象
+        IUserService userService = new UserService();
+        // 组装代理信息
+        AdvisedSupport advisedSupport = new AdvisedSupport();
+        advisedSupport.setTargetSource(new TargetSource(userService));
+        advisedSupport.setMethodInterceptor(new UserServiceInterceptor());
+        advisedSupport.setMethodMatcher(new AspectJExpressionPointcut("execution(* cn.atong.leek.spring.test.bean.UserService.*(..))"));
+
+        // 代理对象(JdkDynamicAopProxy)
+        IUserService proxy_jdk = (IUserService) new JdkDynamicAopProxy(advisedSupport).getProxy();
+        // 测试调用
+        System.out.println("测试结果：" + proxy_jdk.queryUserName());
+
+        // 代理对象(Cglib2AopProxy)
+        IUserService proxy_cglib = (IUserService) new Cglib2AopProxy(advisedSupport).getProxy();
+        // 测试调用
+        System.out.println("测试结果：" + proxy_cglib.register("花花"));
     }
 
 
