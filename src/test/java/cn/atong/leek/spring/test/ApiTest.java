@@ -134,8 +134,9 @@ public class ApiTest {
 
 
     @Test
-    public void test_hook() {
+    public void test_hook() throws InterruptedException {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> System.out.println("close！")));
+        Thread.sleep(5000);
     }
 
 
