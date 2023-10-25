@@ -7,9 +7,11 @@ import cn.atong.leek.spring.aop.aspectj.AspectJExpressionPointcut;
 import cn.atong.leek.spring.aop.framework.Cglib2AopProxy;
 import cn.atong.leek.spring.aop.framework.JdkDynamicAopProxy;
 import cn.atong.leek.spring.aop.framework.ReflectiveMethodInvocation;
+import cn.atong.leek.spring.beans.BeansException;
 import cn.atong.leek.spring.beans.PropertyValue;
 import cn.atong.leek.spring.beans.PropertyValues;
 import cn.atong.leek.spring.beans.factory.config.BeanDefinition;
+import cn.atong.leek.spring.beans.factory.config.BeanPostProcessor;
 import cn.atong.leek.spring.beans.factory.support.DefaultListableBeanFactory;
 import cn.atong.leek.spring.beans.factory.xml.XmlBeanDefinitionReader;
 import cn.atong.leek.spring.context.support.ClassPathXmlApplicationContext;
@@ -21,6 +23,8 @@ import org.aopalliance.intercept.MethodInterceptor;
 import org.junit.Test;
 
 import java.lang.reflect.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @program: leek-spring
@@ -259,6 +263,44 @@ public class ApiTest {
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
         IUserAopService userAopService = applicationContext.getBean("userAopService", IUserAopService.class);
         System.out.println("测试结果：" + userAopService.queryUserInfo());
+    }
+
+
+    @Test
+    public void test_scan() {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring-scan.xml");
+        IUserService userService = applicationContext.getBean("userService", IUserService.class);
+        System.out.println("测试结果：" + userService.register("aaa"));
+    }
+
+    @Test
+    public void test_property() {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring-property.xml");
+        IUserService userService = applicationContext.getBean("userService", IUserService.class);
+        System.out.println("测试结果：" + userService);
+    }
+
+    @Test
+    public void test_beanPost(){
+
+        BeanPostProcessor beanPostProcessor = new BeanPostProcessor() {
+            @Override
+            public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+                return null;
+            }
+
+            @Override
+            public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+                return null;
+            }
+        };
+
+        List<BeanPostProcessor> beanPostProcessors = new ArrayList<BeanPostProcessor>();
+        beanPostProcessors.add(beanPostProcessor);
+        beanPostProcessors.add(beanPostProcessor);
+        beanPostProcessors.remove(beanPostProcessor);
+
+        System.out.println(beanPostProcessors.size());
     }
 
 

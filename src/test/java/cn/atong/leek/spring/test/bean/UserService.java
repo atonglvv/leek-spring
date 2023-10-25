@@ -4,6 +4,7 @@ import cn.atong.leek.spring.beans.BeansException;
 import cn.atong.leek.spring.beans.factory.*;
 import cn.atong.leek.spring.context.ApplicationContext;
 import cn.atong.leek.spring.context.ApplicationContextAware;
+import cn.atong.leek.spring.stereotype.Component;
 
 import java.util.Random;
 
@@ -13,6 +14,7 @@ import java.util.Random;
  * @description User Service
  * @date 10:57 2022/3/25
  **/
+@Component("userService")
 public class UserService implements InitializingBean, DisposableBean, BeanNameAware, BeanClassLoaderAware,
         ApplicationContextAware, BeanFactoryAware, IUserService {
 
@@ -20,6 +22,7 @@ public class UserService implements InitializingBean, DisposableBean, BeanNameAw
     private ApplicationContext applicationContext;
     private BeanFactory beanFactory;
 
+    private String token;
 
     private String uId;
 
@@ -142,5 +145,13 @@ public class UserService implements InitializingBean, DisposableBean, BeanNameAw
 
     public BeanFactory getBeanFactory() {
         return beanFactory;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }
