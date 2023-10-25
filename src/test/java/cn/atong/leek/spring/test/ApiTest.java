@@ -254,4 +254,12 @@ public class ApiTest {
     }
 
 
+    @Test
+    public void test_aop_ioc() {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
+        IUserAopService userAopService = applicationContext.getBean("userAopService", IUserAopService.class);
+        System.out.println("测试结果：" + userAopService.queryUserInfo());
+    }
+
+
 }

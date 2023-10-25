@@ -41,6 +41,11 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
         return doGetBean(name, args);
     }
 
+    @Override
+    public <T> T getBean(String name, Class<T> requiredType) throws BeansException {
+        return (T) getBean(name);
+    }
+
     protected <T> T doGetBean(final String name, final Object[] args) {
         Object sharedInstance = getSingleton(name);
         if (sharedInstance != null) {

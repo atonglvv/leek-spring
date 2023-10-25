@@ -25,4 +25,15 @@
     <bean class="cn.atong.leek.spring.test.event.CustomEventListener"/>
     <bean class="cn.atong.leek.spring.test.event.ContextClosedEventListener"/>
 
+    <!--把AOP动态代理融入到Bean的声明周期-->
+    <bean id="userAopService" class="cn.atong.leek.spring.test.bean.UserAopService"/>
+    <bean class="cn.atong.leek.spring.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
+    <bean id="beforeAdvice" class="cn.atong.leek.spring.test.bean.UserServiceBeforeAdvice"/>
+    <bean id="methodInterceptor" class="cn.atong.leek.spring.aop.framework.adapter.MethodBeforeAdviceInterceptor">
+        <property name="advice" ref="beforeAdvice"/>
+    </bean>
+    <bean id="pointcutAdvisor" class="cn.atong.leek.spring.aop.aspectj.AspectJExpressionPointcutAdvisor">
+        <property name="expression" value="execution(* cn.atong.leek.spring.test.bean.IUserService.*(..))"/>
+        <property name="advice" ref="methodInterceptor"/>
+    </bean>
 </beans>
