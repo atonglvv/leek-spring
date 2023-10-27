@@ -1,5 +1,7 @@
 package cn.atong.leek.spring.aop;
 
+import cn.atong.leek.spring.util.ClassUtils;
+
 /**
  * @program: leek-spring
  * @description: 被代理的目标对象
@@ -22,7 +24,10 @@ public class TargetSource {
      * @return the type of targets returned by this {@link TargetSource}
      */
     public Class<?>[] getTargetClass(){
-        return this.target.getClass().getInterfaces();
+        Class<?> clazz = this.target.getClass();
+        // target 可能是JDK代理创建也可能是CGlib创建，为了保证都能正确的获取到结果，需要增加判读ClassUtils.isCglibProxyClass(clazz)
+        clazz = ClassUtils.isCglibProxyClass(clazz) ? clazz.getSuperclass() : clazz;
+        return clazz.getInterfaces();
     }
 
     /**
