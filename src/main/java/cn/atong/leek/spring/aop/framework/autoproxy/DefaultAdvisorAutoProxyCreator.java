@@ -4,6 +4,7 @@ import cn.atong.leek.spring.aop.*;
 import cn.atong.leek.spring.aop.aspectj.AspectJExpressionPointcutAdvisor;
 import cn.atong.leek.spring.aop.framework.ProxyFactory;
 import cn.atong.leek.spring.beans.BeansException;
+import cn.atong.leek.spring.beans.PropertyValues;
 import cn.atong.leek.spring.beans.factory.BeanFactory;
 import cn.atong.leek.spring.beans.factory.BeanFactoryAware;
 import cn.atong.leek.spring.beans.factory.config.InstantiationAwareBeanPostProcessor;
@@ -18,12 +19,6 @@ import java.util.Collection;
  * Advisors in the current BeanFactory. This class is completely generic; it contains
  * no special code to handle any particular aspects, such as pooling aspects.
  * <p>
- *
- *
- *
- *
- *
- * 作者：DerekYRC https://github.com/DerekYRC/mini-spring
  */
 public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPostProcessor, BeanFactoryAware {
 
@@ -77,6 +72,11 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
         return bean;
+    }
+
+    @Override
+    public PropertyValues postProcessPropertyValues(PropertyValues pvs, Object bean, String beanName) throws BeansException {
+        return pvs;
     }
     
 }

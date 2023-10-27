@@ -11,12 +11,6 @@ import java.util.Set;
  * A component provider that scans the classpath from a base package. It then
  * applies exclude and include filters to the resulting classes to find candidates.
  * <p>
- *
- *
- *
- *
- *
- * 作者：DerekYRC https://github.com/DerekYRC/mini-spring
  */
 public class ClassPathScanningCandidateComponentProvider {
 

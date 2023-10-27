@@ -2,6 +2,8 @@ package cn.atong.leek.spring.test.bean;
 
 import cn.atong.leek.spring.beans.BeansException;
 import cn.atong.leek.spring.beans.factory.*;
+import cn.atong.leek.spring.beans.factory.annotation.Autowired;
+import cn.atong.leek.spring.beans.factory.annotation.Value;
 import cn.atong.leek.spring.context.ApplicationContext;
 import cn.atong.leek.spring.context.ApplicationContextAware;
 import cn.atong.leek.spring.stereotype.Component;
@@ -22,6 +24,7 @@ public class UserService implements InitializingBean, DisposableBean, BeanNameAw
     private ApplicationContext applicationContext;
     private BeanFactory beanFactory;
 
+    @Value("${token}")
     private String token;
 
     private String uId;
@@ -30,7 +33,9 @@ public class UserService implements InitializingBean, DisposableBean, BeanNameAw
 
     private Integer age;
 
+    @Autowired
     private UserDao userDao;
+
     /** Factory Bean 创建的 Bean */
     private IUserDao userDaoFactoryBean;
 

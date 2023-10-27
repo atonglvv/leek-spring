@@ -1,5 +1,6 @@
 package cn.atong.leek.spring.context.annotation;
 
+import cn.atong.leek.spring.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import cn.atong.leek.spring.beans.factory.config.BeanDefinition;
 import cn.atong.leek.spring.beans.factory.support.BeanDefinitionRegistry;
 import cn.atong.leek.spring.stereotype.Component;
@@ -33,6 +34,9 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
                 registry.registerBeanDefinition(determineBeanName(beanDefinition), beanDefinition);
             }
         }
+        // 注册处理注解的 BeanPostProcessor（@Autowired、@Value）
+        registry.registerBeanDefinition("cn.atong.leek.spring.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor",
+                new BeanDefinition(AutowiredAnnotationBeanPostProcessor.class));
     }
 
     private String resolveBeanScope(BeanDefinition beanDefinition) {

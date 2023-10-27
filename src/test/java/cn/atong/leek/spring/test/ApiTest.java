@@ -303,5 +303,11 @@ public class ApiTest {
         System.out.println(beanPostProcessors.size());
     }
 
+    @Test
+    public void test_scan_autowired() {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring-scan.xml");
+        IUserService userService = applicationContext.getBean("userService", IUserService.class);
+        System.out.println("测试结果：" + userService.queryUserInfo());
+    }
 
 }

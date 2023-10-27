@@ -1,8 +1,11 @@
 package cn.atong.leek.spring.test.bean;
 
+import cn.atong.leek.spring.stereotype.Component;
+
 import java.util.HashMap;
 import java.util.Map;
 
+@Component
 public class UserDao {
 
     private static Map<String, String> hashMap = new HashMap<>();
