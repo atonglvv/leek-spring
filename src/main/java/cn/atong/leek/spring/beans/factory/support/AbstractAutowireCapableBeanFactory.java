@@ -5,8 +5,10 @@ import cn.atong.leek.spring.beans.PropertyValue;
 import cn.atong.leek.spring.beans.PropertyValues;
 import cn.atong.leek.spring.beans.factory.*;
 import cn.atong.leek.spring.beans.factory.config.*;
+import cn.atong.leek.spring.core.convert.ConversionService;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.TypeUtil;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -176,13 +178,23 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
                     // A 依赖 B，获取 B 的实例化
                     BeanReference beanReference = (BeanReference) value;
                     value = getBean(beanReference.getBeanName());
+                } else {
+                    // 类型转换
+                    Class<?> sourceType = value.getClass();
+                    Class<?> targetType = (Class<?>) TypeUtil.getFieldType(bean.getClass(), name);
+                    ConversionService conversionService = getConversionService();
+                    if (conversionService != null) {
+                        if (conversionService.canConvert(sourceType, targetType)) {
+                            value = conversionService.convert(value, targetType);
+                        }
+                    }
                 }
 
                 // 属性填充
                 BeanUtil.setFieldValue(bean, name, value);
             }
         } catch (Exception e) {
-            throw new BeansException("Error setting property values：" + beanName);
+            throw new BeansException("Error setting property values：" + beanName + " message：" + e);
         }
     }
 

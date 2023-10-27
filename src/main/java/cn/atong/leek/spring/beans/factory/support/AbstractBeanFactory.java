@@ -5,6 +5,7 @@ import cn.atong.leek.spring.beans.factory.FactoryBean;
 import cn.atong.leek.spring.beans.factory.config.BeanDefinition;
 import cn.atong.leek.spring.beans.factory.config.BeanPostProcessor;
 import cn.atong.leek.spring.beans.factory.config.ConfigurableBeanFactory;
+import cn.atong.leek.spring.core.convert.ConversionService;
 import cn.atong.leek.spring.util.ClassUtils;
 import cn.atong.leek.spring.util.StringValueResolver;
 
@@ -30,6 +31,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
      */
     private final List<StringValueResolver> embeddedValueResolvers = new ArrayList<>();
 
+    private ConversionService conversionService;
+
     /**
      * 模板模式, 获取 bean 的方法
      *
@@ -51,6 +54,13 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
     public <T> T getBean(String name, Class<T> requiredType) throws BeansException {
         return (T) getBean(name);
     }
+
+    @Override
+    public boolean containsBean(String name) {
+        return containsBeanDefinition(name);
+    }
+
+    protected abstract boolean containsBeanDefinition(String beanName);
 
     protected <T> T doGetBean(final String name, final Object[] args) {
         Object sharedInstance = getSingleton(name);
@@ -109,6 +119,16 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
             result = resolver.resolveStringValue(result);
         }
         return result;
+    }
+
+    @Override
+    public void setConversionService(ConversionService conversionService) {
+        this.conversionService = conversionService;
+    }
+
+    @Override
+    public ConversionService getConversionService() {
+        return conversionService;
     }
 
     /**

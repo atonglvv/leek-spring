@@ -15,7 +15,10 @@ import cn.atong.leek.spring.beans.factory.config.BeanPostProcessor;
 import cn.atong.leek.spring.beans.factory.support.DefaultListableBeanFactory;
 import cn.atong.leek.spring.beans.factory.xml.XmlBeanDefinitionReader;
 import cn.atong.leek.spring.context.support.ClassPathXmlApplicationContext;
+import cn.atong.leek.spring.core.convert.converter.Converter;
+import cn.atong.leek.spring.core.convert.support.StringToNumberConverterFactory;
 import cn.atong.leek.spring.test.bean.*;
+import cn.atong.leek.spring.test.converter.StringToIntegerConverter;
 import cn.atong.leek.spring.test.event.CustomEvent;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.NoOp;
@@ -308,6 +311,31 @@ public class ApiTest {
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring-scan.xml");
         IUserService userService = applicationContext.getBean("userService", IUserService.class);
         System.out.println("测试结果：" + userService.queryUserInfo());
+    }
+
+    @Test
+    public void test_convert() {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring-01.xml");
+        Husband husband = applicationContext.getBean("husband", Husband.class);
+        System.out.println("测试结果：" + husband);
+    }
+
+    @Test
+    public void test_StringToIntegerConverter() {
+        StringToIntegerConverter converter = new StringToIntegerConverter();
+        Integer num = converter.convert("1234");
+        System.out.println("测试结果：" + num);
+    }
+
+    @Test
+    public void test_StringToNumberConverterFactory() {
+        StringToNumberConverterFactory converterFactory = new StringToNumberConverterFactory();
+
+        Converter<String, Integer> stringToIntegerConverter = converterFactory.getConverter(Integer.class);
+        System.out.println("测试结果：" + stringToIntegerConverter.convert("1234"));
+
+        Converter<String, Long> stringToLongConverter = converterFactory.getConverter(Long.class);
+        System.out.println("测试结果：" + stringToLongConverter.convert("1234"));
     }
 
 }

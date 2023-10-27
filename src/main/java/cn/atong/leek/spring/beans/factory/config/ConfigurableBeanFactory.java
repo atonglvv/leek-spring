@@ -1,7 +1,9 @@
 package cn.atong.leek.spring.beans.factory.config;
 
 import cn.atong.leek.spring.beans.factory.HierarchicalBeanFactory;
+import cn.atong.leek.spring.core.convert.ConversionService;
 import cn.atong.leek.spring.util.StringValueResolver;
+import com.sun.istack.internal.Nullable;
 
 /**
  * @program: leek-spring
@@ -49,5 +51,17 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
      */
     String resolveEmbeddedValue(String value);
 
+    /**
+     * Specify a Spring 3.0 ConversionService to use for converting
+     * property values, as an alternative to JavaBeans PropertyEditors.
+     * @since 3.0
+     */
+    void setConversionService(ConversionService conversionService);
 
+    /**
+     * Return the associated ConversionService, if any.
+     * @since 3.0
+     */
+    @Nullable
+    ConversionService getConversionService();
 }

@@ -11,6 +11,7 @@ import cn.atong.leek.spring.context.event.ApplicationEventMulticaster;
 import cn.atong.leek.spring.context.event.ContextClosedEvent;
 import cn.atong.leek.spring.context.event.ContextRefreshedEvent;
 import cn.atong.leek.spring.context.event.SimpleApplicationEventMulticaster;
+import cn.atong.leek.spring.core.convert.ConversionService;
 import cn.atong.leek.spring.core.io.DefaultResourceLoader;
 
 import java.util.Collection;
@@ -51,11 +52,25 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
         // 7. 注册事件监听器
         registerListeners();
 
-        // 8. 提前实例化单例Bean对象
-        beanFactory.preInstantiateSingletons();
+        // 8. 设置类型转换器、提前实例化单例Bean对象
+        finishBeanFactoryInitialization(beanFactory);
 
         // 9. 发布容器刷新完成事件
         finishRefresh();
+    }
+
+    // 设置类型转换器、提前实例化单例Bean对象
+    protected void finishBeanFactoryInitialization(ConfigurableListableBeanFactory beanFactory) {
+        // 设置类型转换器
+        if (beanFactory.containsBean("conversionService")) {
+            Object conversionService = beanFactory.getBean("conversionService");
+            if (conversionService instanceof ConversionService) {
+                beanFactory.setConversionService((ConversionService) conversionService);
+            }
+        }
+
+        // 提前实例化单例Bean对象
+        beanFactory.preInstantiateSingletons();
     }
 
     protected abstract void refreshBeanFactory() throws BeansException;
@@ -130,6 +145,11 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
     @Override
     public String[] getBeanDefinitionNames() {
         return getBeanFactory().getBeanDefinitionNames();
+    }
+
+    @Override
+    public boolean containsBean(String name) {
+        return getBeanFactory().containsBean(name);
     }
 
     @Override
